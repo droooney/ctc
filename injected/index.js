@@ -9,10 +9,7 @@
     const puzzleId = (_a = location.pathname.match(/^\/sudoku\/([^/]+)$/)) === null || _a === void 0 ? void 0 : _a[1];
     const lsKey = `puzzle-${puzzleId}`;
     const loadPuzzle = async () => {
-        const url = new URL(location.toString());
-        const puzzleInfo = JSON.parse(url.searchParams.get('puzzle-info')
-            || localStorage.getItem(lsKey)
-            || 'null');
+        const puzzleInfo = JSON.parse(localStorage.getItem(lsKey) || 'null');
         if (!puzzleInfo) {
             return;
         }
@@ -87,10 +84,7 @@
         const oldValue = localStorage.getItem(lsKey);
         const newValue = JSON.stringify(puzzleInfo);
         if (newValue !== oldValue) {
-            const newURL = new URL(location.toString());
-            newURL.searchParams.set('puzzle-info', newValue);
             localStorage.setItem(lsKey, newValue);
-            history.replaceState(null, '', newURL.toString());
         }
     };
     const timeout = async (ms) => {

@@ -21,12 +21,7 @@ interface PuzzleInfo {
   const lsKey = `puzzle-${puzzleId}`;
 
   const loadPuzzle = async () => {
-    const url = new URL(location.toString());
-    const puzzleInfo: PuzzleInfo | null = JSON.parse(
-      url.searchParams.get('puzzle-info')
-      || localStorage.getItem(lsKey)
-      || 'null'
-    );
+    const puzzleInfo: PuzzleInfo | null = JSON.parse(localStorage.getItem(lsKey) || 'null');
 
     if (!puzzleInfo) {
       return;
@@ -129,12 +124,7 @@ interface PuzzleInfo {
     const newValue = JSON.stringify(puzzleInfo);
 
     if (newValue !== oldValue) {
-      const newURL = new URL(location.toString());
-
-      newURL.searchParams.set('puzzle-info', newValue);
-
       localStorage.setItem(lsKey, newValue);
-      history.replaceState(null, '', newURL.toString());
     }
   };
 
