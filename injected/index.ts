@@ -32,6 +32,8 @@ interface PuzzleInfo {
       await timeout(100);
     }
 
+    await timeout(100);
+
     const controls = document.querySelector('.sudoku-play__input-controls')!;
     const normalButton = findActionButton('Normal');
     const cornerButton = findActionButton('Corner');
