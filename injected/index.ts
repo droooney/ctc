@@ -2,6 +2,7 @@ interface CellInfo {
   y: number;
   x: number;
   h?: number;
+  v?: string;
   c?: string;
   pm?: string;
 }
@@ -46,6 +47,12 @@ interface PuzzleInfo {
         colorButton.click();
 
         (controls.children[cell.h] as HTMLElement).click();
+      }
+
+      if (cell.v) {
+        normalButton.click();
+
+        (controls.children[+cell.v - 1] as HTMLElement).click();
       }
 
       if (cell.c) {
@@ -96,6 +103,7 @@ interface PuzzleInfo {
       };
 
       const highlightCell = cell.querySelector<HTMLElement>('.sudoku-cell__highlight');
+      const valueCell = cell.querySelector<HTMLElement>('.sudoku-cell__value--user');
       const candidatesCell = cell.querySelector<HTMLElement>('.sudoku-cell__candidates--user');
       const pencilMarksCells = cell.querySelectorAll<HTMLElement>('.sudoku-cell__pm--user');
 
@@ -107,15 +115,19 @@ interface PuzzleInfo {
         }
       }
 
+      if (valueCell) {
+        cellInfo.v = valueCell.textContent?.trim();
+      }
+
       if (candidatesCell) {
-        cellInfo.c = (candidatesCell.textContent || '').trim();
+        cellInfo.c = candidatesCell.textContent?.trim();
       }
 
       if (pencilMarksCells.length) {
         cellInfo.pm = [...pencilMarksCells].map((pm) => (pm.textContent || '').trim()).join('');
       }
 
-      if (cellInfo.h !== undefined || cellInfo.pm || cellInfo.c) {
+      if (cellInfo.h !== undefined || cellInfo.v || cellInfo.pm || cellInfo.c) {
         puzzleInfo.cells.push(cellInfo);
       }
     }

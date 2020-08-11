@@ -27,6 +27,10 @@
                 colorButton.click();
                 controls.children[cell.h].click();
             }
+            if (cell.v) {
+                normalButton.click();
+                controls.children[+cell.v - 1].click();
+            }
             if (cell.c) {
                 centerButton.click();
                 cell.c.split('').forEach((digit) => {
@@ -47,6 +51,7 @@
         }));
     };
     const savePuzzle = () => {
+        var _a, _b;
         const grid = document.querySelector('.sudoku-grid');
         if (!grid) {
             return;
@@ -63,6 +68,7 @@
                 x,
             };
             const highlightCell = cell.querySelector('.sudoku-cell__highlight');
+            const valueCell = cell.querySelector('.sudoku-cell__value--user');
             const candidatesCell = cell.querySelector('.sudoku-cell__candidates--user');
             const pencilMarksCells = cell.querySelectorAll('.sudoku-cell__pm--user');
             if (highlightCell) {
@@ -71,13 +77,16 @@
                     cellInfo.h = index;
                 }
             }
+            if (valueCell) {
+                cellInfo.v = (_a = valueCell.textContent) === null || _a === void 0 ? void 0 : _a.trim();
+            }
             if (candidatesCell) {
-                cellInfo.c = (candidatesCell.textContent || '').trim();
+                cellInfo.c = (_b = candidatesCell.textContent) === null || _b === void 0 ? void 0 : _b.trim();
             }
             if (pencilMarksCells.length) {
                 cellInfo.pm = [...pencilMarksCells].map((pm) => (pm.textContent || '').trim()).join('');
             }
-            if (cellInfo.h !== undefined || cellInfo.pm || cellInfo.c) {
+            if (cellInfo.h !== undefined || cellInfo.v || cellInfo.pm || cellInfo.c) {
                 puzzleInfo.cells.push(cellInfo);
             }
         }
